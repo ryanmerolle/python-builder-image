@@ -45,6 +45,7 @@ RUN dnf update -y \
   && rm -rf /var/lib/dnf/history.* \
   && rm -rf /var/log/*
 
+# hadolint ignore=DL4006
 RUN cat build-requirements.txt requirements.txt | sort > upper-constraints.txt \
   && pip3 install --no-cache-dir -r build-requirements.txt -c upper-constraints.txt \
   && pip3 install --no-cache-dir -r requirements.txt -c upper-constraints.txt
