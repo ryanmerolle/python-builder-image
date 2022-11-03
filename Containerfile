@@ -13,16 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG CONTAINER_IMAGE=quay.io/ansible/python-base:latest
+ARG CONTAINER_IMAGE=ghcr.io/ryanmerolle/python-base-image:latest
 ARG REMOTE_SOURCE=.
 ARG REMOTE_SOURCE_DIR=/remote-source
 ARG REMOTE_SOURCE_APP_DIR=$REMOTE_SOURCE_DIR
 
+# hadolint ignore=DL3006
 FROM $CONTAINER_IMAGE as builder
 # =============================================================================
 ARG REMOTE_SOURCE_DIR
 COPY $REMOTE_SOURCE $REMOTE_SOURCE_DIR
 
+# hadolint ignore=DL3006
 FROM $CONTAINER_IMAGE
 # =============================================================================
 ARG REMOTE_SOURCE_APP_DIR
@@ -35,8 +37,9 @@ COPY --from=builder $REMOTE_SOURCE_APP_DIR/scripts/install-from-bindep /output/i
 
 WORKDIR $REMOTE_SOURCE_APP_DIR
 
+# hadolint ignore=DL3041,SC3009
 RUN dnf update -y \
-  && dnf install -y python38-wheel git \
+  && dnf install -y git \
   && dnf clean all \
   && rm -rf /var/cache/{dnf,yum} \
   && rm -rf /var/lib/dnf/history.* \
