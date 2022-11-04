@@ -39,7 +39,8 @@ WORKDIR $REMOTE_SOURCE_APP_DIR
 
 # hadolint ignore=DL3041,SC3009
 RUN dnf update -y \
-  && dnf install -y git python3-setuptools-wheel \
+  && dnf install -y git gcc libpq-devel -y python3-setuptools-wheel python3-pip-wheel python3-devel python3-pip krb5-devel \
+  && pip install --upgrade pip \
   && dnf clean all \
   && rm -rf /var/cache/{dnf,yum} \
   && rm -rf /var/lib/dnf/history.* \
